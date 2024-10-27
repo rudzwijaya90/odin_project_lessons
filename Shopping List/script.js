@@ -1,24 +1,38 @@
-const list = document.querySelector("ul");
-const input = document.querySelector("input");
-const button = document.querySelector("button");
+const list = document.querySelector('ul');
+const input = document.querySelector('input');
+const button = document.querySelector('button');
 
-button.addEventListener("click", () => {
-  const myItem = input.value;
-  input.value = "";
+const addItem = () => {
+    const myItem = input.value.trim(); // Get the input value and trim whitespace
+    if (myItem === '') return; // Don't add empty items
 
-  const listItem = document.createElement("li");
-  const listText = document.createElement("span");
-  const listBtn = document.createElement("button");
+    input.value = ''; // Clear the input field
 
-  listItem.appendChild(listText);
-  listText.textContent = myItem;
-  listItem.appendChild(listBtn);
-  listBtn.textContent = "Delete";
-  list.appendChild(listItem);
+    const listItem = document.createElement('li');
+    const listText = document.createElement('span');
+    const listBtn = document.createElement('button');
 
-  listBtn.addEventListener("click", () => {
-    list.removeChild(listItem);
-  });
+    listText.textContent = myItem; // Set span text
+    listBtn.textContent = 'Delete'; // Set button text
 
-  input.focus();
+    listItem.appendChild(listText);
+    listItem.appendChild(listBtn);
+    list.appendChild(listItem); // Append the new item to the list
+
+    // Delete button functionality
+    listBtn.addEventListener('click', () => {
+        list.removeChild(listItem);
+    });
+
+    input.focus(); // Focus back on the input field
+};
+
+// Button click event
+button.addEventListener('click', addItem);
+
+// Enter key event on the input
+input.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        addItem(); // Call the same function when Enter is pressed
+    }
 });
